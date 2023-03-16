@@ -1,0 +1,14 @@
+{
+  "repo_name": "acme-project",
+  "project_name": "The ACME Project",
+  "package_name": "acme",
+  "project_description": "A project for outlandish products that fail or backfire catastrophically at the worst possible times.",
+  "author_name": "Road Runner",
+  "author_email": "road.runner@acme.com",
+  "python_version": [
+    "3.11",
+    "3.10",
+    "3.9",
+    "3.8"
+  ]
+}
