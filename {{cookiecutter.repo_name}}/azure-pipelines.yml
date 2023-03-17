@@ -1,0 +1,38 @@
+trigger:
+  - master
+
+stages:
+  - stage: stage_ci
+    pool:
+      vmImage: "ubuntu-latest"
+    jobs:
+      - job: source_validation
+        steps:
+          - template: .azure-pipelines/python-setup.yml
+          - script: |
+              nox -s pre-commit
+            displayName: "Validate code (linting, formatting, etc.)"
+          - script: |
+              nox -s mypy
+            displayName: "Run static type checking"
+          - script: |
+              nox -s typeguard
+            displayName: "Run runtime type checking"
+          - script: |
+              nox -s safety
+            displayName: "Run security checks"
+      - job: testing
+        steps:
+          - template: .azure-pipelines/python-setup.yml
+          - script: |
+              nox -s tests
+            displayName: "Run unit tests"
+        dependsOn: source_validation
+      - job: build
+        steps:
+          - template: .azure-pipelines/python-setup.yml
+          - script: |
+              rm -fr dist || true
+              poetry build
+            displayName: "Build wheel package"
+        dependsOn: testing

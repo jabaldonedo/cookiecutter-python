@@ -1,0 +1,12 @@
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "{{ cookiecutter.python_version }}"
+    displayName: "Use Python {{ cookiecutter.python_version }}"
+  - script: |
+      python --version
+      pipx install nox
+      pipx inject nox nox-poetry
+      pipx install poetry
+      pipx install pre-commit
+    displayName: "Install dependencies"
