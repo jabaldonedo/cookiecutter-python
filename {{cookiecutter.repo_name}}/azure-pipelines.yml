@@ -22,6 +22,7 @@ stages:
               nox -s safety
             displayName: "Run security checks"
       - job: testing
+        condition: in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/master')
         steps:
           - template: .azure-pipelines/python-setup.yml
           - script: |
@@ -29,6 +30,7 @@ stages:
             displayName: "Run unit tests"
         dependsOn: source_validation
       - job: build
+        condition: in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/master')
         steps:
           - template: .azure-pipelines/python-setup.yml
           - script: |
